@@ -7,6 +7,4 @@ SRCS += main.c
 SRCS += utils/ft_atoi.c
 SRCS += utils/ft_put.c
 
-
-
 # SRCS += routine/routine.c

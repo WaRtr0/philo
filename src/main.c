@@ -29,7 +29,7 @@ int	init_data(t_data *data, int	argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 	{
-		ft_putstr_fd("Error: wrong number of arguments\n", 1);
+		ft_putstr_fd("ffjjffgjjddndkdqwjdwjdjdjdkjnkjfefwehfejfjhfjfse\n", 1);
 		return (1);
 	}
 	ft_putstr_fd("Tout es yep tout est bgiwdeioefkfeif feiufweiifweio ok\n", 1);

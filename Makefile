@@ -1,3 +1,4 @@
+SHELL:=/bin/bash
 NAME = philo
 
 ARGS = $(filter-out $@, $(MAKECMDGOALS))
