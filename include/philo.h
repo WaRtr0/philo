@@ -7,6 +7,20 @@
 # include <unistd.h>
 # include <sys/time.h>
 
+# define P_FORK		"has taken a fork"
+# define P_EAT		"is eating"
+# define P_SLEEP		"is sleeping"
+# define P_THINK		"is thinking"
+# define P_DEAD		"died"
+
+# define ERR_ARG	"Error: Invalid arguments count\n"
+# define ERR_MALLOC	"Error: Malloc failed\n"
+# define ERR_THREAD	"Error: Thread creation failed\n"
+# define ERR_MUTEX	"Error: Mutex creation failed\n"
+# define ERR_NBR	"Error: Is not numeric\n"
+# define ERR_BIG	"Error: Big Number\n"
+# define ERR_RULE	"Error: Rule not respected\n"
+
 typedef struct s_philo
 {
 	int				id;
@@ -33,6 +47,16 @@ typedef struct s_data
 	t_philo			*philo;
 }					t_data;
 
+enum	e_status
+{
+	dead,s
+	eat,
+	sleep,
+	think,
+	available,
+	taken
+};
+
 int		ft_atoi(const char *str);
 int		ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
@@ -48,7 +72,6 @@ void	*philo_life(void *philo);
 void	*death_check(void *philo);
 void	*monitor(void *philo);
 void	init_philo(t_data *data);
-int		init_data(t_data *data, int argc, char **argv);
 void	free_data(t_data *data);
 
 #endif
