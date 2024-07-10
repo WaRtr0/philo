@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/06/25 15:46:29 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/11 00:05:01 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ int	main(int argc, char **argv)
 
 	if (init_data(&data, argc, argv))
 		return (1);
-	printf("sfrefrer\n");
+	if (!fk_creates(&data))
+		return (1);
+	if (!ph_creates(&data))
+		return (1);
+	ph_start(&data);
 	return (0);
 }

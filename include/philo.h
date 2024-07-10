@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/11 00:16:31 by mmorot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -21,57 +33,75 @@
 # define ERR_BIG	"Error: Big Number\n"
 # define ERR_RULE	"Error: Rule not respected\n"
 
-typedef struct s_philo
+typedef char	t_bool;
+# define TRUE 1
+# define FALSE 0
+
+
+typedef enum e_state
 {
-	int				id;
-	pthread_t		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	int				eat_count;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*death;
-	struct timeval	last_eat;
-}					t_philo;
+	dead,
+	eating,
+	sleeping,
+	thinking,
+	taking
+}	t_state;
+
+typedef struct fork
+{
+	t_bool			is_available;
+	pthread_mutex_t	mutex;
+}	t_fork;
 
 typedef struct s_data
 {
 	int				philo_count;
+	suseconds_t		start_time;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_count;
-	int				philo_dead;
-	pthread_mutex_t	*forks;
+	t_bool			philo_dead;
+	t_fork			**forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
-	t_philo			*philo;
+	struct s_philo	**philo;
 }					t_data;
-
-enum	e_status
+typedef struct s_philo
 {
-	dead,s
-	eat,
-	sleep,
-	think,
-	available,
-	taken
-};
+	int				id;
+	t_data			*data;
+	pthread_t		thread;
+	int				eat_count;
+	t_state			state;
+	suseconds_t		last_eat;
+}					t_philo;
 
-int		ft_atoi(const char *str);
-int		ft_strlen(const char *s);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void	ft_usleep(int time);
+int			ft_atoi(const char *str);
+int			ft_strlen(const char *s);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putnbr_fd(int n, int fd);
+void		*ft_calloc(size_t count, size_t size);
+suseconds_t	ft_get_time(void);
 
-int		is_done(t_data *data, t_philo *philo);
-int		get_time(void);
-void	print_status(t_philo *philo, char *status);
-int		get_fork(t_philo *philo);
-int		put_fork(t_philo *philo);
-void	*philo_life(void *philo);
-void	*death_check(void *philo);
-void	*monitor(void *philo);
-void	init_philo(t_data *data);
-void	free_data(t_data *data);
+t_bool		fk_creates(t_data *data);
+t_bool		fk_destroys(t_data *data);
+t_bool		fk_take(int id, t_fork **forks);
+t_bool		fk_put(int id, t_fork **forks);
+
+
+int			ph_creates(t_data *data);
+void		ph_start(t_data *data);
+void		ph_destroys(t_data *data);
+void		ph_usleep(int time, t_philo *philo);
+void		ph_get_forks(t_philo *philo);
+
+t_bool		ph_get_dead(t_data *data);
+void		ph_set_dead(t_data *data);
+t_bool		ph_is_dead(t_philo *philo);
+
+
+void		ph_routine(t_philo *philo);
+void		ph_print_status(t_philo *philo, t_state state);
 
 #endif

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/11 00:16:52 by mmorot            #+#    #+#              #
+#    Updated: 2024/07/11 00:16:53 by mmorot           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SHELL:=/bin/bash
 NAME = philo
 
@@ -6,7 +18,9 @@ ARGS = $(filter-out $@, $(MAKECMDGOALS))
 CC = cc
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+#SANITIZE		=	-fsanitize=thread -g3
+
+CFLAGS = ${SANITIZE} -Wall -Wextra -Werror
 
 SDIR = src
 BDIR = .build
