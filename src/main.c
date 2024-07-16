@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/11 00:05:01 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/16 02:49:09 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	init_data(t_data *data, int argc, char **argv)
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->must_eat_count = 0;
+	pthread_mutex_init(&(data->death), NULL);
+	pthread_mutex_init(&(data->print), NULL);
 	if (argc == 6)
 		data->must_eat_count = ft_atoi(argv[5]);
 	if (data->philo_count < 1)
@@ -56,12 +58,22 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	printf("START\n");
 	if (init_data(&data, argc, argv))
 		return (1);
 	if (!fk_creates(&data))
 		return (1);
-	if (!ph_creates(&data))
+	pthread_mutex_lock(&(data.print));
+	if (ph_creates(&data))
 		return (1);
-	ph_start(&data);
+	data.start_time = ft_get_time();
+	printf("START TIME %ld\n", data.start_time);
+	pthread_mutex_unlock(&(data.print));
+	//address Data.philo[0]->data
+
+	printf("DATA PHILO %p \n", (void*)data.philo[0]->data);
+	printf("START 3\n");
+	ph_join(&data);
+	
 	return (0);
 }

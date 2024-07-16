@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/11 00:16:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/16 02:37:39 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ t_bool		fk_put(int id, t_fork **forks);
 
 
 int			ph_creates(t_data *data);
-void		ph_start(t_data *data);
+void		ph_join(t_data *data);
 void		ph_destroys(t_data *data);
 void		ph_usleep(int time, t_philo *philo);
-void		ph_get_forks(t_philo *philo);
+t_bool		ph_get_forks(t_data *data, int id);
 
 t_bool		ph_get_dead(t_data *data);
 void		ph_set_dead(t_data *data);
