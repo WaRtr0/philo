@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:37:39 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:15:17 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ typedef char	t_bool;
 # define FALSE 0
 
 
+/**
+ * @brief state enum for ``ph_print_status``
+ * @param dead philo is dead
+ * @param eating philo is eating
+ * @param sleeping philo is sleeping
+ * @param thinking philo is thinking
+ * @param taking philo is taking a fork
+ */
 typedef enum e_state
 {
 	dead,
@@ -47,35 +55,62 @@ typedef enum e_state
 	taking
 }	t_state;
 
+/**
+ * @brief fork struct
+ * @param is_available check if the fork is available
+ * @param mutex mutex for the fork
+ */
 typedef struct fork
 {
 	t_bool			is_available;
 	pthread_mutex_t	mutex;
 }	t_fork;
 
+/**
+ * @brief data struct
+ * @param philo_count number of philo  ``arg[1]``
+ * @param start_time start time of global data
+ * @param time_to_die time to die ``arg[2]``
+ * @param time_to_eat time to eat ``arg[3]``
+ * @param time_to_sleep time to sleep ``arg[4]``
+ * @param must_eat_count must eat count ``?arg[5]``
+ * @param philo_dead check if dead
+ * @param forks is a array on fork struct
+ * @param print print mutex for  ``ph_print_status``
+ * @param death death mutex for  ``philo_dead``
+ * @param philo is a array on philo struct
+ */
 typedef struct s_data
 {
-	int				philo_count;
-	suseconds_t		start_time;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				must_eat_count;
-	t_bool			philo_dead;
-	t_fork			**forks;
-	pthread_mutex_t	print;
-	pthread_mutex_t	death;
-	struct s_philo	**philo;
+	int				philo_count; /** number of philo  ``arg[1]``*/
+	suseconds_t		start_time; /** start time*/
+	int				time_to_die; /** time to die ``arg[2]``*/
+	int				time_to_eat; /** time to eat ``arg[3]``*/
+	int				time_to_sleep; /** time to sleep ``arg[4]``*/
+	int				must_eat_count; /** must eat count ``?arg[5]``*/
+	t_bool			philo_dead; /** check if dead*/
+	t_fork			**forks; /** is a array on fork struct*/
+	pthread_mutex_t	print; /** print mutex for  ``ph_print_status``*/
+	pthread_mutex_t	death; /** death mutex for  ``philo_dead``*/
+	struct s_philo	**philo; /** is a array on philo struct*/
 }					t_data;
+
+/** @struct struct s_philo
+ *  @brief philo struct
+ *  @param id id of philo
+ *  @param data pointer on global data [/data/philo == ../]
+ *  @param thread thread of philo
+ *  @param eat_count eat_count of philo
+ *  @param last_eat last_eat of philo
+*/
 typedef struct s_philo
 {
-	int				id;
-	t_data			*data;
-	pthread_t		thread;
-	int				eat_count;
-	t_state			state;
-	suseconds_t		last_eat;
-}					t_philo;
+	int				id; /** id of philo*/
+	t_data			*data; /** pointer on global data [/data/philo == ../] */
+	pthread_t		thread; /** thread of philo */
+	int				eat_count; /** eat_count of philo*/
+	suseconds_t		last_eat; /** last_eat of philo*/
+}	t_philo; /** philo structure*/
 
 int			ft_atoi(const char *str);
 int			ft_strlen(const char *s);

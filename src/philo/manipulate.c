@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:45:49 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:54:18 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:19:30 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_bool	ph_get_forks(t_data *data, int id)
 */
 t_bool	ph_is_dead(t_philo *philo)
 {
-	int	time;
+	suseconds_t	time;
 
 	time = ft_get_time();
 	if (time - philo->last_eat > philo->data->time_to_die)

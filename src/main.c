@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:49:09 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:20:27 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	printf("START\n");
 	if (init_data(&data, argc, argv))
 		return (1);
 	if (!fk_creates(&data))
@@ -67,13 +66,7 @@ int	main(int argc, char **argv)
 	if (ph_creates(&data))
 		return (1);
 	data.start_time = ft_get_time();
-	printf("START TIME %ld\n", data.start_time);
 	pthread_mutex_unlock(&(data.print));
-	//address Data.philo[0]->data
-
-	printf("DATA PHILO %p \n", (void*)data.philo[0]->data);
-	printf("START 3\n");
 	ph_join(&data);
-	
 	return (0);
 }

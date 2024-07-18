@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:20:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:46:37 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:20:48 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ int	ph_creates(t_data *data)
 			//destroy all
 			return (1);
 		}
-		
-		printf("create %d\n", i);
-		
-		i++;
+	i++;
 	}
 	return (0);
 }
@@ -56,7 +53,6 @@ void	ph_join(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
-		printf("join %d\n", i);
 		pthread_join(data->philo[i]->thread, NULL);
 		i++;
 	}

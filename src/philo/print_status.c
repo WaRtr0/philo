@@ -6,16 +6,22 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:17:14 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:17:00 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:10:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+**	@brief print the status of the philosopher
+**  ``src/philo/print_status.c``
+**	@param philo the philosopher pointer
+**	@param state the state to print
+*/
 void	ph_print_status(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&(philo->data->print));
-	if (philo->data->philo_dead == FALSE)
+	if (philo->data->philo_dead == FALSE || state == dead)
 	{
 		ft_putnbr_fd(ft_get_time() - philo->data->start_time, 1);
 		ft_putstr_fd(" ", 1);
@@ -30,6 +36,7 @@ void	ph_print_status(t_philo *philo, t_state state)
 			ft_putstr_fd(" is thinking\n", 1);
 		else if (state == taking)
 			ft_putstr_fd(" has taken a fork\n", 1);
+		// printf("state %ld\n", philo->last_eat);
 	}
 	pthread_mutex_unlock(&philo->data->print);
 }

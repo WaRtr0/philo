@@ -6,7 +6,7 @@
 #    By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 00:16:52 by mmorot            #+#    #+#              #
-#    Updated: 2024/07/11 00:16:53 by mmorot           ###   ########.fr        #
+#    Updated: 2024/07/18 19:26:06 by mmorot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ ARGS = $(filter-out $@, $(MAKECMDGOALS))
 CC = cc
 RM = rm -f
 
-#SANITIZE		=	-fsanitize=thread -g3
+SANITIZE		=	-fsanitize=thread -g3
 
 CFLAGS = ${SANITIZE} -Wall -Wextra -Werror
 

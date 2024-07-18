@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:15:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/16 02:32:31 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:20:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ph_routine(t_philo *philo)
 	data = philo->data;
 	pthread_mutex_lock(&(data->print));
 	pthread_mutex_unlock(&(data->print));
-	printf("philo %p\n", philo->data);
 	if (philo->id % 2)
 		ph_usleep(100, philo);
 	// printf("C\n");
