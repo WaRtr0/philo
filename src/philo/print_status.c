@@ -21,7 +21,7 @@
 void	ph_print_status(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&(philo->data->print));
-	if (philo->data->philo_dead == FALSE || state == dead)
+	if (state == dead || ph_get_dead(philo->data) == FALSE)
 	{
 		ft_putnbr_fd(ft_get_time() - philo->data->start_time, 1);
 		ft_putstr_fd(" ", 1);
@@ -36,7 +36,6 @@ void	ph_print_status(t_philo *philo, t_state state)
 			ft_putstr_fd(" is thinking\n", 1);
 		else if (state == taking)
 			ft_putstr_fd(" has taken a fork\n", 1);
-		// printf("state %ld\n", philo->last_eat);
 	}
 	pthread_mutex_unlock(&philo->data->print);
 }

@@ -1,16 +1,26 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:20:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/18 18:20:48 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/19 08:09:33 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
+
+static int	add_manager(t_data *data)
+{
+	if (data->must_eat_count > 0)
+	{
+		if (pthread_create(&(data->manager), NULL, (void *)manager, data))
+			return (1);
+	}
+	return (0);
+}
 
 /*
 **   @brief create all philo
@@ -35,6 +45,7 @@ int	ph_creates(t_data *data)
 			return (1);
 		data->philo[i]->id = i;
 		data->philo[i]->last_eat = ft_get_time();
+		pthread_mutex_init(&(data->philo[i]->eat), NULL);
 		data->philo[i]->data = data;
 		if (pthread_create(&(data->philo[i]->thread), NULL, (void *)ph_routine, data->philo[i]))
 		{
@@ -43,7 +54,7 @@ int	ph_creates(t_data *data)
 		}
 	i++;
 	}
-	return (0);
+	return (add_manager(data));
 }
 
 void	ph_join(t_data *data)

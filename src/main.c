@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/18 18:20:27 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/19 08:02:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -65,8 +65,11 @@ int	main(int argc, char **argv)
 	pthread_mutex_lock(&(data.print));
 	if (ph_creates(&data))
 		return (1);
+	ph_set_dead(&data, FALSE);
 	data.start_time = ft_get_time();
 	pthread_mutex_unlock(&(data.print));
 	ph_join(&data);
+	if (data.must_eat_count > 0)
+		pthread_join(data.manager, NULL);
 	return (0);
 }

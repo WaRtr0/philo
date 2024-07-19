@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/18 18:15:17 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/19 07:59:16 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -92,6 +92,7 @@ typedef struct s_data
 	t_fork			**forks; /** is a array on fork struct*/
 	pthread_mutex_t	print; /** print mutex for  ``ph_print_status``*/
 	pthread_mutex_t	death; /** death mutex for  ``philo_dead``*/
+	pthread_t		manager;
 	struct s_philo	**philo; /** is a array on philo struct*/
 }					t_data;
 
@@ -100,6 +101,7 @@ typedef struct s_data
  *  @param id id of philo
  *  @param data pointer on global data [/data/philo == ../]
  *  @param thread thread of philo
+ *  @param priority	id priority
  *  @param eat_count eat_count of philo
  *  @param last_eat last_eat of philo
 */
@@ -108,7 +110,9 @@ typedef struct s_philo
 	int				id; /** id of philo*/
 	t_data			*data; /** pointer on global data [/data/philo == ../] */
 	pthread_t		thread; /** thread of philo */
+	int				priority[2];	/** id priority*/
 	int				eat_count; /** eat_count of philo*/
+	pthread_mutex_t	eat;
 	suseconds_t		last_eat; /** last_eat of philo*/
 }	t_philo; /** philo structure*/
 
@@ -132,11 +136,12 @@ void		ph_usleep(int time, t_philo *philo);
 t_bool		ph_get_forks(t_data *data, int id);
 
 t_bool		ph_get_dead(t_data *data);
-void		ph_set_dead(t_data *data);
+void		ph_set_dead(t_data *data, t_bool value);
 t_bool		ph_is_dead(t_philo *philo);
 
 
 void		ph_routine(t_philo *philo);
 void		ph_print_status(t_philo *philo, t_state state);
 
+void		manager(t_data *data);
 #endif

@@ -1,38 +1,16 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:45:49 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/18 18:19:30 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/19 09:24:23 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
-
-/*
-**	@brief get id by even or odd
-**
-**	@param data the data structure
-**	@param id the id of the philosopher
-**	@param ids the array of ids
-**	@return void
-*/
-static void	get_priority_id(t_data *data, int id, int *ids)
-{
-	if (id % 2)
-	{
-		ids[0] = id;
-		ids[1] = (id + 1) % data->philo_count;
-	}
-	else
-	{
-		ids[0] = (id + 1) % data->philo_count;
-		ids[1] = id;
-	}
-}
 
 /*
 **	@brief get forks
@@ -43,28 +21,32 @@ static void	get_priority_id(t_data *data, int id, int *ids)
 */
 t_bool	ph_get_forks(t_data *data, int id)
 {
-	int	fork_count;
-	int	ids[2];
+	int		take[2];
+	t_philo	*philo;
+	//dd
 
-	fork_count = 0;
-	get_priority_id(data, id, ids);
-	while (fork_count < 2)
+	philo = data->philo[id];
+	take[0] = 0;
+	take[1] = 0;
+	while (take[0] + take[1] < 2)
 	{
-		if (fk_take(ids[0], data->forks))
-			fork_count++;
-		if (fork_count)
+		if (!take[0] && fk_take(philo->priority[0], data->forks))
 		{
-			ph_print_status(data->philo[id], taking);
-			if (fk_take(ids[1], data->forks))
-				fork_count++;
-			else
-			{
-				fk_put(ids[0], data->forks);
-				fork_count = 0;
-			}
+			ph_print_status(philo, taking);
+			take[0]++;
 		}
+		if (take[0] && !take[1] && fk_take(philo->priority[1], data->forks))
+		{
+			ph_print_status(philo, taking);
+			take[1]++;
+		}
+		if (take[0] + take[1] < 2)
+		
+		if (ph_get_dead(philo->data) == TRUE
+			|| ph_is_dead(philo) == TRUE)
+			break ;
+		usleep(200);
 	}
-	ph_print_status(data->philo[id], taking);
 	return (TRUE);
 }
 
@@ -81,7 +63,7 @@ t_bool	ph_is_dead(t_philo *philo)
 	time = ft_get_time();
 	if (time - philo->last_eat > philo->data->time_to_die)
 	{
-		ph_set_dead(philo->data);
+		ph_set_dead(philo->data, TRUE);
 		ph_print_status(philo, dead);
 		return (TRUE);
 	}
@@ -112,9 +94,9 @@ t_bool	ph_get_dead(t_data *data)
 ** @param data the data structure
 ** @return ``void``
 */
-void	ph_set_dead(t_data *data)
+void	ph_set_dead(t_data *data,t_bool value)
 {
 	pthread_mutex_lock(&data->death);
-	data->philo_dead = TRUE;
+	data->philo_dead = value;
 	pthread_mutex_unlock(&data->death);
 }
