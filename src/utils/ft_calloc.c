@@ -6,13 +6,12 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:30:05 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/11 00:06:12 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:19:50 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <string.h>
-
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -24,4 +23,3 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	memset(ptr, 0, nmemb * size);
 	return (ptr);
 }
-

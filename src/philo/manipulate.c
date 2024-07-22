@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:45:49 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/19 09:24:23 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:43:45 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -23,7 +23,6 @@ t_bool	ph_get_forks(t_data *data, int id)
 {
 	int		take[2];
 	t_philo	*philo;
-	//dd
 
 	philo = data->philo[id];
 	take[0] = 0;
@@ -40,8 +39,6 @@ t_bool	ph_get_forks(t_data *data, int id)
 			ph_print_status(philo, taking);
 			take[1]++;
 		}
-		if (take[0] + take[1] < 2)
-		
 		if (ph_get_dead(philo->data) == TRUE
 			|| ph_is_dead(philo) == TRUE)
 			break ;
@@ -94,7 +91,7 @@ t_bool	ph_get_dead(t_data *data)
 ** @param data the data structure
 ** @return ``void``
 */
-void	ph_set_dead(t_data *data,t_bool value)
+void	ph_set_dead(t_data *data, t_bool value)
 {
 	pthread_mutex_lock(&data->death);
 	data->philo_dead = value;

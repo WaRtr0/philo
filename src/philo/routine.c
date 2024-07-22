@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:15:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/19 09:22:48 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:43:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -55,7 +55,6 @@ void	ph_routine(t_philo *philo)
 	pthread_mutex_unlock(&(data->print));
 	if (philo->id % 2)
 		usleep(data->time_to_eat * 500);
-	ph_print_status(philo, thinking);
 	while (1)
 	{
 		if (ph_get_dead(data) || ph_is_dead(philo))
@@ -64,8 +63,6 @@ void	ph_routine(t_philo *philo)
 		ph_print_status(philo, eating);
 		philo->last_eat = ft_get_time();
 		must_eat_action(philo);
-		// if (ph_is_dead(philo) == TRUE)
-		// 	break ;
 		ph_usleep(data->time_to_eat, philo);
 		fk_put(philo->priority[0], data->forks);
 		fk_put(philo->priority[1], data->forks);

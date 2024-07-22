@@ -6,7 +6,7 @@
 /*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:35:39 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/10 20:04:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:18:04 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_bool	fk_put(int id, t_fork **forks)
 	}
 	return (FALSE);
 }
-
 
 /*
 **	@brief take the fork

@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/19 07:59:16 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 05:23:44 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -36,7 +36,6 @@
 typedef char	t_bool;
 # define TRUE 1
 # define FALSE 0
-
 
 /**
  * @brief state enum for ``ph_print_status``
@@ -128,7 +127,6 @@ t_bool		fk_destroys(t_data *data);
 t_bool		fk_take(int id, t_fork **forks);
 t_bool		fk_put(int id, t_fork **forks);
 
-
 int			ph_creates(t_data *data);
 void		ph_join(t_data *data);
 void		ph_destroys(t_data *data);
@@ -138,7 +136,6 @@ t_bool		ph_get_forks(t_data *data, int id);
 t_bool		ph_get_dead(t_data *data);
 void		ph_set_dead(t_data *data, t_bool value);
 t_bool		ph_is_dead(t_philo *philo);
-
 
 void		ph_routine(t_philo *philo);
 void		ph_print_status(t_philo *philo, t_state state);
