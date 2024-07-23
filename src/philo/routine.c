@@ -80,10 +80,6 @@ void	ph_routine(t_philo *philo)
 		ph_print_status(philo, sleeping);
 		ph_usleep(data->time_to_sleep, philo);
 		ph_print_status(philo, thinking);
-		// if (philo->id != philo->priority[0])
-		// 	think(philo);
-		// if (philo->id != philo->priority[0])
-		// 	ph_usleep(data->time_to_eat / 4, philo);
-		// usleep(250);
+		usleep(250);
 	}
 }

@@ -19,7 +19,7 @@ void	ph_usleep(int time, t_philo *philo)
 
 	end = ft_get_time() + time;
 	while (1)
-	{	
+	{
 		if (ph_is_dead(philo) == TRUE
 			|| ph_get_dead(philo->data) == TRUE)
 			break ;

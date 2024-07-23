@@ -63,7 +63,7 @@ t_bool	ph_get_forks(t_data *data, int id)
 		}
 		if (ph_is_dead(philo))
 			break ;
-		usleep(30);
+		usleep(100);
 	}
 	return (TRUE);
 }

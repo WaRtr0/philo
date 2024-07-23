@@ -20,11 +20,10 @@
 */
 void	ph_print_status(t_philo *philo, t_state state)
 {
-	t_bool	state_dead;
-
+	pthread_mutex_lock(&(philo->data->death));
 	pthread_mutex_lock(&(philo->data->print));
-	state_dead = ph_get_dead(philo->data);
-	if ((state == dead && state_dead == FALSE) || state_dead == FALSE)
+	if ((state == dead && philo->data->philo_dead == FALSE)
+		|| philo->data->philo_dead == FALSE)
 	{
 		ft_putnbr_fd(ft_get_time() - philo->data->start_time, 1);
 		ft_putstr_fd(" ", 1);
@@ -41,4 +40,5 @@ void	ph_print_status(t_philo *philo, t_state state)
 			ft_putstr_fd(" has taken a fork\n", 1);
 	}
 	pthread_mutex_unlock(&philo->data->print);
+	pthread_mutex_unlock(&(philo->data->death));
 }
