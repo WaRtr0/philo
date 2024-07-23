@@ -65,7 +65,7 @@ void	ph_routine(t_philo *philo)
 	get_priority_id(data, philo->id, philo->priority);
 	pthread_mutex_lock(&(data->print));
 	pthread_mutex_unlock(&(data->print));
-	philo->last_eat = data->start_time + 1;
+	philo->last_eat = data->start_time;
 	if (philo->id != philo->priority[0])
 		usleep(data->time_to_eat * 500);
 	while (!(ph_get_dead(data) || ph_is_dead(philo)))
