@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 20:15:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 03:24:55 by mmorot           ###   ########.fr       */
+/*   Created: 2024/07/23 04:03:12 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/23 04:03:14 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -45,27 +45,27 @@ static void	get_priority_id(t_data *data, int id, int *ids)
 	}
 }
 
-static suseconds_t getter(pthread_mutex_t *thread, suseconds_t *var)
-{
-	suseconds_t value;
+// static void	think(t_philo *philo)
+// {
+// 	int think_time = (philo->data->time_to_die - (ft_get_time() - 
+// 					philo->last_eat) - 
+// 					philo->data->time_to_eat) / 8;
+// 	// ph_print_status(philo, thinking);
+// 	ph_usleep(think_time, philo);
+// }
 
-	value = 0;
-	pthread_mutex_lock(thread);
-	value = *var;
-	pthread_mutex_unlock(thread);
-	return (value);
-}
+
 void	ph_routine(t_philo *philo)
 {
 	t_data	*data;
-
 
 	data = philo->data;
 	if ((ph_get_dead(data)))
 		return ;
 	get_priority_id(data, philo->id, philo->priority);
-	while (getter(&data->print, &data->start_time) == 0)
-		;
+	pthread_mutex_lock(&(data->print));
+	pthread_mutex_unlock(&(data->print));
+	philo->last_eat = data->start_time + 1;
 	if (philo->id != philo->priority[0])
 		usleep(data->time_to_eat * 500);
 	while (!(ph_get_dead(data) || ph_is_dead(philo)))
@@ -73,12 +73,17 @@ void	ph_routine(t_philo *philo)
 		ph_get_forks(data, philo->id);
 		ph_print_status(philo, eating);
 		philo->last_eat = ft_get_time();
-		must_eat_action(philo);
 		ph_usleep(data->time_to_eat, philo);
+		must_eat_action(philo);
 		fk_put(philo->priority[0], data->forks);
 		fk_put(philo->priority[1], data->forks);
 		ph_print_status(philo, sleeping);
 		ph_usleep(data->time_to_sleep, philo);
 		ph_print_status(philo, thinking);
+		// if (philo->id != philo->priority[0])
+		// 	think(philo);
+		// if (philo->id != philo->priority[0])
+		// 	ph_usleep(data->time_to_eat / 4, philo);
+		// usleep(250);
 	}
 }

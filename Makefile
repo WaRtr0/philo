@@ -16,11 +16,11 @@ NAME = philo
 ARGS = $(filter-out $@, $(MAKECMDGOALS))
 
 CC = gcc
-RM = rm -f
+RM = rm -rf
 
 # SANITIZE		=	-fsanitize=thread -g3
 
-CFLAGS = ${SANITIZE} -Wall -Wextra -Werror
+CFLAGS = ${SANITIZE} -Wall -Wextra -Werror -MMD
 
 SDIR = src
 BDIR = .build
@@ -67,16 +67,18 @@ $(NAME) : $(OFILES) | $(LIB_PATH)
 	@$(CC) $(CFLAGS) -o $@ $(OFILES) $(LIB_FLAGS)
 	@printf "$(NAME_COLOR) Compilation done$(RESET)\n";
 
-$(BDIR)/%.o : $(SDIR)/%.c
+$(BDIR)/%.o : $(SDIR)/%.c Makefile
 	@mkdir -p $(@D)
 	@printf "$(NAME_COLOR) Compiling$(GREEN) $< $(RESET)\n";
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HDIR)/ $(LIB_INCLUDE)
 	@printf "$(NAME_COLOR) \
 	$@ $(RESET)\n";
 
+-include $(OFILES:.o=.d)
+
 clean	::
 	@printf "$(NAME_COLOR) Cleaning$(RESET)\n";
-	@$(RM) $(OFILES)
+	@$(RM) $(BDIR)
 
 re	:: fclean
 	@$(MAKE) -s all

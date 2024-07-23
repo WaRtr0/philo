@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 02:22:47 by mmorot           ###   ########.fr       */
+/*   Created: 2024/07/23 04:01:04 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/23 04:01:06 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -65,8 +65,6 @@ int	main(int argc, char **argv)
 	if (!fk_creates(&data))
 		return (fk_destroys(&data));
 	pthread_mutex_lock(&(data.print));
-	data.start_time = 0;
-	pthread_mutex_unlock(&(data.print));
 	if (ph_creates(&data))
 	{
 		ph_set_dead(&data, TRUE);
@@ -76,7 +74,6 @@ int	main(int argc, char **argv)
 		return (ph_destroys(&data), 1);
 	}
 	ph_set_dead(&data, FALSE);
-	pthread_mutex_lock(&(data.print));
 	data.start_time = ft_get_time();
 	pthread_mutex_unlock(&(data.print));
 	ph_join(&data);

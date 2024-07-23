@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 15:45:49 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 03:18:01 by mmorot           ###   ########.fr       */
+/*   Created: 2024/07/23 04:02:33 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/23 04:02:34 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -62,11 +62,12 @@ t_bool	ph_get_forks(t_data *data, int id)
 			take[1]++;
 		}
 		if (ph_is_dead(philo))
-			break;
+			break ;
 		usleep(30);
 	}
 	return (TRUE);
 }
+
 /*
 ** @brief check if the philosopher is dead
 **  ``src/philo/manipulate.c``
@@ -80,8 +81,8 @@ t_bool	ph_is_dead(t_philo *philo)
 	time = ft_get_time();
 	if (time - philo->last_eat > philo->data->time_to_die)
 	{
-		ph_set_dead(philo->data, TRUE);
 		ph_print_status(philo, dead);
+		ph_set_dead(philo->data, TRUE);
 		return (TRUE);
 	}
 	return (FALSE);

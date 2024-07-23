@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   print_status.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 23:17:14 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 01:34:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/07/23 04:02:52 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/23 04:02:54 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -20,8 +20,11 @@
 */
 void	ph_print_status(t_philo *philo, t_state state)
 {
+	t_bool	state_dead;
+
 	pthread_mutex_lock(&(philo->data->print));
-	if (state == dead || ph_get_dead(philo->data) == FALSE)
+	state_dead = ph_get_dead(philo->data);
+	if ((state == dead && state_dead == FALSE) || state_dead == FALSE)
 	{
 		ft_putnbr_fd(ft_get_time() - philo->data->start_time, 1);
 		ft_putstr_fd(" ", 1);

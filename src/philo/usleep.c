@@ -1,31 +1,36 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   usleep.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 23:18:19 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 03:26:43 by mmorot           ###   ########.fr       */
+/*   Created: 2024/07/23 04:00:36 by mmorot            #+#    #+#             */
+/*   Updated: 2024/07/23 04:00:38 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "philo.h"
 
 void	ph_usleep(int time, t_philo *philo)
 {
-	suseconds_t	start;
 	suseconds_t	end;
+	suseconds_t	actual;
 
-	start = ft_get_time();
+	end = ft_get_time() + time;
 	while (1)
-	{
-		end = ft_get_time() - start;
-		if (ph_get_dead(philo->data) == TRUE
-			|| ph_is_dead(philo) == TRUE)
+	{	
+		if (ph_is_dead(philo) == TRUE
+			|| ph_get_dead(philo->data) == TRUE)
 			break ;
-		usleep(30);
-		if (end >= time)
+		actual = ft_get_time();
+		if (actual >= end)
 			break ;
+		else if (end - actual < 2)
+		{
+			usleep(1000);
+			break ;
+		}
+		usleep(50);
 	}
 }
