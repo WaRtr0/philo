@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:15:54 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:43:55 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/23 03:24:55 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -45,20 +45,31 @@ static void	get_priority_id(t_data *data, int id, int *ids)
 	}
 }
 
+static suseconds_t getter(pthread_mutex_t *thread, suseconds_t *var)
+{
+	suseconds_t value;
+
+	value = 0;
+	pthread_mutex_lock(thread);
+	value = *var;
+	pthread_mutex_unlock(thread);
+	return (value);
+}
 void	ph_routine(t_philo *philo)
 {
 	t_data	*data;
 
+
 	data = philo->data;
+	if ((ph_get_dead(data)))
+		return ;
 	get_priority_id(data, philo->id, philo->priority);
-	pthread_mutex_lock(&(data->print));
-	pthread_mutex_unlock(&(data->print));
-	if (philo->id % 2)
+	while (getter(&data->print, &data->start_time) == 0)
+		;
+	if (philo->id != philo->priority[0])
 		usleep(data->time_to_eat * 500);
-	while (1)
+	while (!(ph_get_dead(data) || ph_is_dead(philo)))
 	{
-		if (ph_get_dead(data) || ph_is_dead(philo))
-			break ;
 		ph_get_forks(data, philo->id);
 		ph_print_status(philo, eating);
 		philo->last_eat = ft_get_time();
@@ -69,6 +80,5 @@ void	ph_routine(t_philo *philo)
 		ph_print_status(philo, sleeping);
 		ph_usleep(data->time_to_sleep, philo);
 		ph_print_status(philo, thinking);
-		usleep(50);
 	}
 }

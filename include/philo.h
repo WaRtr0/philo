@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 00:16:29 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:23:44 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/23 01:28:39 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -32,7 +32,7 @@
 # define ERR_NBR	"Error: Is not numeric\n"
 # define ERR_BIG	"Error: Big Number\n"
 # define ERR_RULE	"Error: Rule not respected\n"
-
+# define ERR_NB_PHILO "Error: Max philo is 250\n"
 typedef char	t_bool;
 # define TRUE 1
 # define FALSE 0

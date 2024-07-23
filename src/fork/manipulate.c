@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:35:39 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:18:04 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/23 03:15:08 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -53,15 +53,18 @@ static	t_bool	set_state(t_fork **forks, int id, t_bool state)
 **	@return t_bool TRUE if the fork is put, FALSE otherwise
 **  @note pthread_mutex_trylock is better than pthread_mutex_lock...
 */
+// t_bool	fk_put(int id, t_fork **forks)
+// {
+// 	set_state(forks, id, TRUE);
+// 	pthread_mutex_unlock(&(forks[id]->mutex));
+// 	return (TRUE);
+// }
 t_bool	fk_put(int id, t_fork **forks)
 {
-	if (!pthread_mutex_lock(&(forks[id]->mutex)))
-	{
-		set_state(forks, id, TRUE);
-		pthread_mutex_unlock(&(forks[id]->mutex));
-		return (TRUE);
-	}
-	return (FALSE);
+	pthread_mutex_lock(&(forks[id]->mutex));
+	set_state(forks, id, TRUE);
+	pthread_mutex_unlock(&(forks[id]->mutex));
+	return (TRUE);
 }
 
 /*
@@ -72,19 +75,28 @@ t_bool	fk_put(int id, t_fork **forks)
 **	@return t_bool TRUE if the fork is taken, FALSE otherwise
 **  @note pthread_mutex_trylock is better than pthread_mutex_lock...
 */
+// t_bool	fk_take(int id, t_fork **forks)
+// {
+// 	pthread_mutex_lock(&(forks[id]->mutex));
+// 	if (is_available(forks, id) == TRUE)
+// 	{
+// 		set_state(forks, id, FALSE);
+// 		// pthread_mutex_unlock(&(forks[id]->mutex));
+// 		return (TRUE);
+// 	}
+// 	// pthread_mutex_unlock(&(forks[id]->mutex));
+// 	return (FALSE);
+// }
 t_bool	fk_take(int id, t_fork **forks)
 {
-	if (!pthread_mutex_lock(&(forks[id]->mutex)))
+	pthread_mutex_lock(&(forks[id]->mutex));
+	if (is_available(forks, id) == TRUE)
 	{
-		if (is_available(forks, id) == TRUE)
-		{
-			set_state(forks, id, FALSE);
-			pthread_mutex_unlock(&(forks[id]->mutex));
-			return (TRUE);
-		}
+		set_state(forks, id, FALSE);
 		pthread_mutex_unlock(&(forks[id]->mutex));
-		return (FALSE);
+		return (TRUE);
 	}
+	pthread_mutex_unlock(&(forks[id]->mutex));
 	return (FALSE);
 }
 
@@ -100,17 +112,20 @@ t_bool	fk_creates(t_data *data)
 	int	i;
 
 	i = 0;
-	data->forks = malloc(sizeof(t_fork *) * data->philo_count);
+	data->forks = ft_calloc(data->philo_count, sizeof(t_fork *));
 	if (!data->forks)
 		return (FALSE);
 	while (i < data->philo_count)
 	{
-		data->forks[i] = malloc(sizeof(t_fork));
+		data->forks[i] = ft_calloc(1, sizeof(t_fork));
 		if (!data->forks[i])
 			return (FALSE);
 		set_state(data->forks, i, TRUE);
 		if (pthread_mutex_init(&(data->forks[i]->mutex), NULL))
+		{
+			data->forks[i]->is_available = -1;
 			return (FALSE);
+		}
 		i++;
 	}
 	return (TRUE);

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:20:18 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:26:21 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/22 23:11:07 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -38,7 +38,7 @@ int	ph_creates(t_data *data)
 		return (1);
 	while (i < data->philo_count)
 	{
-		data->philo[i] = malloc(sizeof(t_philo));
+		data->philo[i] = ft_calloc(1, sizeof(t_philo));
 		if (!data->philo[i])
 			return (1);
 		data->philo[i]->id = i;
@@ -47,10 +47,7 @@ int	ph_creates(t_data *data)
 		data->philo[i]->data = data;
 		if (pthread_create(&(data->philo[i]->thread), NULL,
 				(void *)ph_routine, data->philo[i]))
-		{
-			//destroy all
 			return (1);
-		}
 		i++;
 	}
 	return (add_manager(data));
@@ -63,6 +60,8 @@ void	ph_join(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
+		if (data->philo[i] == NULL || data->philo[i]->thread == 0)
+			break ;
 		pthread_join(data->philo[i]->thread, NULL);
 		i++;
 	}
@@ -75,9 +74,10 @@ void	ph_destroys(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
+		if (data->philo[i] == NULL)
+			break ;
 		free(data->philo[i]);
 		i++;
 	}
 	free(data->philo);
-	// return (0);
 }

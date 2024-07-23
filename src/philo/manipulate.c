@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:45:49 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:43:45 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/23 03:18:01 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -19,6 +19,28 @@
 **	@param id the id of the philosopher
 **	@return t_bool TRUE if the forks are taken, FALSE otherwise
 */
+// t_bool	ph_get_forks(t_data *data, int id)
+// {
+// 	int		take[2];
+// 	t_philo	*philo;
+
+// 	philo = data->philo[id];
+// 	take[0] = 0;
+// 	take[1] = 0;
+// 	if ()
+// 	if (!take[0] && fk_take(philo->priority[0], data->forks))
+// 	{
+// 		ph_print_status(philo, taking);
+// 		take[0]++;
+// 	}
+// 	if (take[0] && !take[1] && fk_take(philo->priority[1], data->forks))
+// 	{
+// 		ph_print_status(philo, taking);
+// 		take[1]++;
+// 	}
+// 	ph_is_dead(philo);
+// 	return (TRUE);
+// }
 t_bool	ph_get_forks(t_data *data, int id)
 {
 	int		take[2];
@@ -39,14 +61,12 @@ t_bool	ph_get_forks(t_data *data, int id)
 			ph_print_status(philo, taking);
 			take[1]++;
 		}
-		if (ph_get_dead(philo->data) == TRUE
-			|| ph_is_dead(philo) == TRUE)
-			break ;
-		usleep(200);
+		if (ph_is_dead(philo))
+			break;
+		usleep(30);
 	}
 	return (TRUE);
 }
-
 /*
 ** @brief check if the philosopher is dead
 **  ``src/philo/manipulate.c``

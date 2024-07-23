@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 23:09:21 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/22 05:23:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/23 02:22:47 by mmorot           ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "philo.h"
 
@@ -51,6 +51,8 @@ static int	init_data(t_data *data, int argc, char **argv)
 		data->must_eat_count = ft_atoi(argv[5]);
 	if (data->philo_count < 1)
 		return (ft_putstr_fd(ERR_RULE, 1), 1);
+	if (data->philo_count > 250)
+		return (ft_putstr_fd(ERR_NB_PHILO, 1), 1);
 	return (0);
 }
 
@@ -61,11 +63,20 @@ int	main(int argc, char **argv)
 	if (init_data(&data, argc, argv))
 		return (1);
 	if (!fk_creates(&data))
-		return (1);
+		return (fk_destroys(&data));
 	pthread_mutex_lock(&(data.print));
+	data.start_time = 0;
+	pthread_mutex_unlock(&(data.print));
 	if (ph_creates(&data))
-		return (1);
+	{
+		ph_set_dead(&data, TRUE);
+		pthread_mutex_unlock(&(data.print));
+		ph_join(&data);
+		fk_destroys(&data);
+		return (ph_destroys(&data), 1);
+	}
 	ph_set_dead(&data, FALSE);
+	pthread_mutex_lock(&(data.print));
 	data.start_time = ft_get_time();
 	pthread_mutex_unlock(&(data.print));
 	ph_join(&data);
