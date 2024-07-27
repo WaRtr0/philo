@@ -60,7 +60,7 @@ void	ph_usleep(int time, t_philo *philo)
 	suseconds_t	end;
 
 	end = get_end(philo, time);
-	usleep(end * 1000);
-	ph_get_dead(philo->data);
+	usleep(end);
+	// ph_get_dead(philo->data);
 	ph_is_dead(philo);
 }

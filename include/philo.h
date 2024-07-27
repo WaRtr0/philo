@@ -88,6 +88,9 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_count;
+	//tfreydie test
+	// int				is_dinner_started;
+
 	t_bool			philo_dead;
 	t_fork			**forks;
 	pthread_mutex_t	print;
@@ -119,14 +122,15 @@ typedef struct s_philo
 int			ft_atoi(const char *str);
 int			ft_strlen(const char *s);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putstr_len_fd(char *s, int len, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		*ft_calloc(size_t count, size_t size);
 suseconds_t	ft_get_time(void);
 
 t_bool		fk_creates(t_data *data);
 t_bool		fk_destroys(t_data *data);
-t_bool		fk_take(int id, t_fork **forks);
-t_bool		fk_put(int id, t_fork **forks);
+t_bool		fk_take(t_philo *philo, t_fork *fork);
+t_bool		fk_put(t_fork *fork);
 
 int			ph_creates(t_data *data);
 void		ph_join(t_data *data);

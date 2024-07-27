@@ -53,17 +53,11 @@ t_bool	ph_get_forks(t_data *data, int id)
 	{
 		if (ph_is_dead(philo))
 			break ;
-		if (!take[0] && fk_take(philo->priority[0], data->forks))
-		{
-			ph_print_status(philo, taking);
-			take[0]++;
-		}
-		if (take[0] && !take[1] && fk_take(philo->priority[1], data->forks))
-		{
-			ph_print_status(philo, taking);
-			take[1]++;
-		}
-		usleep(250);
+		if (!take[0])
+			take[0] = fk_take(philo, data->forks[philo->priority[0]]);
+		if (!take[1])
+			take[1] = fk_take(philo, data->forks[philo->priority[1]]);
+		usleep(200);
 	}
 	return (TRUE);
 }

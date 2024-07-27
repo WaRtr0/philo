@@ -17,10 +17,22 @@
 **    ``src/utils/ft_get_time.c``
 **    @return ``__suseconds_t`` | ``long int`` the current time in milliseconds
 */
+// suseconds_t	ft_get_time(void)
+// {
+// 	struct timeval	time;
+
+// 	gettimeofday(&time, (void *)0);
+// 	return ((long)(time.tv_sec) *1000 + (time.tv_usec / 1000));
+// }
+
 suseconds_t	ft_get_time(void)
 {
 	struct timeval	time;
+	suseconds_t		res;
 
 	gettimeofday(&time, (void *)0);
-	return ((long)(time.tv_sec) *1000 + (time.tv_usec / 1000));
+	res = time.tv_sec;
+	res *= 1000000;
+	res += time.tv_usec;
+	return (res);
 }

@@ -20,6 +20,20 @@
 **	@param ids the array of ids
 **	@return void
 */
+//THEO TEST
+
+// int is_dinner_started(t_data *data)
+// {
+// 	int result;
+	
+// 	result = 0;
+// 	pthread_mutex_lock(&(data->print)); //is_dinner started 
+// 	if (data->is_dinner_started == 1)
+// 		result = 1;
+// 	pthread_mutex_unlock(&(data->print));
+// 	return (result);
+// }
+
 
 static void	must_eat_action(t_philo *philo)
 {
@@ -50,15 +64,12 @@ void	ph_routine(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	if ((ph_get_dead(data)))
-		return ;
 	get_priority_id(data, philo->id, philo->priority);
 	pthread_mutex_lock(&(data->print));
-	usleep(100);
 	pthread_mutex_unlock(&(data->print));
 	philo->last_eat = data->start_time;
 	if (philo->id != philo->priority[0])
-		usleep(data->time_to_eat * 1000);
+		usleep(data->time_to_eat / 2);
 	while (!(ph_get_dead(data) || ph_is_dead(philo)))
 	{
 		ph_get_forks(data, philo->id);
@@ -66,10 +77,13 @@ void	ph_routine(t_philo *philo)
 		philo->last_eat = ft_get_time();
 		ph_usleep(data->time_to_eat, philo);
 		must_eat_action(philo);
-		fk_put(philo->priority[0], data->forks);
-		fk_put(philo->priority[1], data->forks);
+		fk_put(data->forks[philo->priority[0]]);
+		fk_put(data->forks[philo->priority[1]]);
 		ph_print_status(philo, sleeping);
 		ph_usleep(data->time_to_sleep, philo);
 		ph_print_status(philo, thinking);
+		usleep(100);
 	}
 }
+
+
