@@ -22,5 +22,5 @@ suseconds_t	ft_get_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, (void *)0);
-	return ((long)(time.tv_sec) *1000L + (time.tv_usec / 1000));
+	return ((long)(time.tv_sec) *1000 + (time.tv_usec / 1000));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:03:12 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 04:03:14 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/27 12:37:58 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,6 @@ static void	get_priority_id(t_data *data, int id, int *ids)
 	}
 }
 
-// static void	think(t_philo *philo)
-// {
-// 	int think_time = (philo->data->time_to_die - (ft_get_time() - 
-// 					philo->last_eat) - 
-// 					philo->data->time_to_eat) / 8;
-// 	// ph_print_status(philo, thinking);
-// 	ph_usleep(think_time, philo);
-// }
-
-
 void	ph_routine(t_philo *philo)
 {
 	t_data	*data;
@@ -64,10 +54,11 @@ void	ph_routine(t_philo *philo)
 		return ;
 	get_priority_id(data, philo->id, philo->priority);
 	pthread_mutex_lock(&(data->print));
+	usleep(100);
 	pthread_mutex_unlock(&(data->print));
 	philo->last_eat = data->start_time;
 	if (philo->id != philo->priority[0])
-		usleep(data->time_to_eat * 500);
+		usleep(data->time_to_eat * 1000);
 	while (!(ph_get_dead(data) || ph_is_dead(philo)))
 	{
 		ph_get_forks(data, philo->id);
@@ -80,6 +71,5 @@ void	ph_routine(t_philo *philo)
 		ph_print_status(philo, sleeping);
 		ph_usleep(data->time_to_sleep, philo);
 		ph_print_status(philo, thinking);
-		usleep(250);
 	}
 }

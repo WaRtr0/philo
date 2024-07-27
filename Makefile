@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmorot <mmorot@student.42.fr>              +#+  +:+       +#+         #
+#    By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 00:16:52 by mmorot            #+#    #+#              #
-#    Updated: 2024/07/23 02:24:52 by mmorot           ###   ########.fr        #
+#    Updated: 2024/07/27 12:17:09 by mmorot           ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 SHELL:=/bin/bash
 NAME = philo
@@ -19,8 +19,9 @@ CC = gcc
 RM = rm -rf
 
 # SANITIZE		=	-fsanitize=thread -g3
+# DEBUG			=	-g3 -O0
 
-CFLAGS = ${SANITIZE} -Wall -Wextra -Werror -MMD
+CFLAGS = ${SANITIZE} ${DEBUG} -Wall -Wextra -Werror -MMD
 
 SDIR = src
 BDIR = .build

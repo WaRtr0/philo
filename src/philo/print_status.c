@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_status.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:02:52 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 04:02:54 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/27 12:47:32 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 */
 void	ph_print_status(t_philo *philo, t_state state)
 {
-	pthread_mutex_lock(&(philo->data->death));
 	pthread_mutex_lock(&(philo->data->print));
+	pthread_mutex_lock(&(philo->data->death));
 	if ((state == dead && philo->data->philo_dead == FALSE)
 		|| philo->data->philo_dead == FALSE)
 	{
+		pthread_mutex_unlock(&(philo->data->death));
 		ft_putnbr_fd(ft_get_time() - philo->data->start_time, 1);
 		ft_putstr_fd(" ", 1);
 		ft_putnbr_fd(philo->id + 1, 1);
@@ -39,6 +40,7 @@ void	ph_print_status(t_philo *philo, t_state state)
 		else if (state == taking)
 			ft_putstr_fd(" has taken a fork\n", 1);
 	}
+	else
+		pthread_mutex_unlock(&(philo->data->death));
 	pthread_mutex_unlock(&philo->data->print);
-	pthread_mutex_unlock(&(philo->data->death));
 }

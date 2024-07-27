@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manipulate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmorot <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mmorot <mmorot@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 04:02:33 by mmorot            #+#    #+#             */
-/*   Updated: 2024/07/23 04:02:34 by mmorot           ###   ########.fr       */
+/*   Updated: 2024/07/27 12:39:40 by mmorot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_bool	ph_get_forks(t_data *data, int id)
 	take[1] = 0;
 	while (take[0] + take[1] < 2)
 	{
+		if (ph_is_dead(philo))
+			break ;
 		if (!take[0] && fk_take(philo->priority[0], data->forks))
 		{
 			ph_print_status(philo, taking);
@@ -61,9 +63,7 @@ t_bool	ph_get_forks(t_data *data, int id)
 			ph_print_status(philo, taking);
 			take[1]++;
 		}
-		if (ph_is_dead(philo))
-			break ;
-		usleep(100);
+		usleep(250);
 	}
 	return (TRUE);
 }
