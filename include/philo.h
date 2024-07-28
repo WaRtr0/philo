@@ -84,13 +84,10 @@ typedef struct s_data
 {
 	int				philo_count;
 	suseconds_t		start_time;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	suseconds_t		time_to_die;
+	suseconds_t		time_to_eat;
+	suseconds_t		time_to_sleep;
 	int				must_eat_count;
-	//tfreydie test
-	// int				is_dinner_started;
-
 	t_bool			philo_dead;
 	t_fork			**forks;
 	pthread_mutex_t	print;
@@ -114,6 +111,8 @@ typedef struct s_philo
 	t_data			*data;
 	pthread_t		thread;
 	int				priority[2];
+	t_fork			*left;
+	t_fork			*right;
 	int				eat_count;
 	pthread_mutex_t	eat;
 	suseconds_t		last_eat;
@@ -130,13 +129,13 @@ suseconds_t	ft_get_time(void);
 t_bool		fk_creates(t_data *data);
 t_bool		fk_destroys(t_data *data);
 t_bool		fk_take(t_philo *philo, t_fork *fork);
-t_bool		fk_put(t_fork *fork);
+t_bool		fk_puts(t_philo *philo);
 
 int			ph_creates(t_data *data);
 void		ph_join(t_data *data);
 void		ph_destroys(t_data *data);
-void		ph_usleep(int time, t_philo *philo);
-t_bool		ph_get_forks(t_data *data, int id);
+void		ph_usleep(suseconds_t time, t_philo *philo);
+t_bool		ph_get_forks(t_philo *philo);
 
 t_bool		ph_get_dead(t_data *data);
 void		ph_set_dead(t_data *data, t_bool value);

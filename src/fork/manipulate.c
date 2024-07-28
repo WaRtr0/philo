@@ -26,11 +26,14 @@
 // 	pthread_mutex_unlock(&(forks[id]->mutex));
 // 	return (TRUE);
 // }
-t_bool	fk_put(t_fork *fork)
+t_bool	fk_puts(t_philo *philo)
 {
-	pthread_mutex_lock(&(fork->mutex));
-	fork->is_available = FALSE;
-	pthread_mutex_unlock(&(fork->mutex));
+	pthread_mutex_lock(&(philo->left->mutex));
+	philo->left->is_available = TRUE;
+	pthread_mutex_unlock(&(philo->left->mutex));
+	pthread_mutex_lock(&(philo->right->mutex));
+	philo->right->is_available = TRUE;
+	pthread_mutex_unlock(&(philo->right->mutex));
 	return (TRUE);
 }
 
@@ -42,18 +45,6 @@ t_bool	fk_put(t_fork *fork)
 **	@return t_bool TRUE if the fork is taken, FALSE otherwise
 **  @note pthread_mutex_trylock is better than pthread_mutex_lock...
 */
-// t_bool	fk_take(int id, t_fork **forks)
-// {
-// 	pthread_mutex_lock(&(forks[id]->mutex));
-// 	if (is_available(forks, id) == TRUE)
-// 	{
-// 		set_state(forks, id, FALSE);
-// 		// pthread_mutex_unlock(&(forks[id]->mutex));
-// 		return (TRUE);
-// 	}
-// 	// pthread_mutex_unlock(&(forks[id]->mutex));
-// 	return (FALSE);
-// }
 t_bool	fk_take(t_philo *philo, t_fork *fork)
 {
 	t_bool	available;
@@ -63,9 +54,7 @@ t_bool	fk_take(t_philo *philo, t_fork *fork)
 	fork->is_available = FALSE;
 	pthread_mutex_unlock(&(fork->mutex));
 	if (available)
-	{
 		ph_print_status(philo, taking);
-	}
 	return (available);
 }
 

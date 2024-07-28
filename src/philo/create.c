@@ -14,12 +14,24 @@
 
 static int	add_manager(t_data *data)
 {
-	if (data->must_eat_count > 0)
-	{
-		if (pthread_create(&(data->manager), NULL, (void *)manager, data))
-			return (1);
-	}
+	if (data->must_eat_count > 0 && pthread_create(&(data->manager),
+			NULL, (void *)manager, data))
+		return (1);
 	return (0);
+}
+
+static void	get_priority_id(t_data *data, t_philo *philo)
+{
+	if (philo->id % 2)
+	{
+		philo->left = data->forks[philo->id];
+		philo->right = data->forks[(philo->id + 1) % data->philo_count];
+	}
+	else
+	{
+		philo->left = data->forks[(philo->id + 1) % data->philo_count];
+		philo->right = data->forks[philo->id];
+	}
 }
 
 /*
@@ -43,6 +55,7 @@ int	ph_creates(t_data *data)
 			return (1);
 		data->philo[i]->id = i;
 		data->philo[i]->last_eat = ft_get_time();
+		get_priority_id(data, data->philo[i]);
 		pthread_mutex_init(&(data->philo[i]->eat), NULL);
 		data->philo[i]->data = data;
 		if (pthread_create(&(data->philo[i]->thread), NULL,

@@ -19,44 +19,21 @@
 **	@param id the id of the philosopher
 **	@return t_bool TRUE if the forks are taken, FALSE otherwise
 */
-// t_bool	ph_get_forks(t_data *data, int id)
-// {
-// 	int		take[2];
-// 	t_philo	*philo;
-
-// 	philo = data->philo[id];
-// 	take[0] = 0;
-// 	take[1] = 0;
-// 	if ()
-// 	if (!take[0] && fk_take(philo->priority[0], data->forks))
-// 	{
-// 		ph_print_status(philo, taking);
-// 		take[0]++;
-// 	}
-// 	if (take[0] && !take[1] && fk_take(philo->priority[1], data->forks))
-// 	{
-// 		ph_print_status(philo, taking);
-// 		take[1]++;
-// 	}
-// 	ph_is_dead(philo);
-// 	return (TRUE);
-// }
-t_bool	ph_get_forks(t_data *data, int id)
+t_bool	ph_get_forks(t_philo *philo)
 {
-	int		take[2];
-	t_philo	*philo;
+	int		put_left;
+	int		put_right;
 
-	philo = data->philo[id];
-	take[0] = 0;
-	take[1] = 0;
-	while (take[0] + take[1] < 2)
+	put_left = 0;
+	put_right = 0;
+	while (put_left + put_right < 2)
 	{
 		if (ph_is_dead(philo))
 			break ;
-		if (!take[0])
-			take[0] = fk_take(philo, data->forks[philo->priority[0]]);
-		if (!take[1])
-			take[1] = fk_take(philo, data->forks[philo->priority[1]]);
+		if (!put_left)
+			put_left = fk_take(philo, philo->left);
+		if (!put_right)
+			put_right = fk_take(philo, philo->right);
 		usleep(200);
 	}
 	return (TRUE);
@@ -76,7 +53,7 @@ t_bool	ph_is_dead(t_philo *philo)
 	if (time - philo->last_eat > philo->data->time_to_die)
 	{
 		ph_print_status(philo, dead);
-		ph_set_dead(philo->data, TRUE);
+		// ph_set_dead(philo->data, TRUE);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -90,14 +67,12 @@ t_bool	ph_is_dead(t_philo *philo)
 */
 t_bool	ph_get_dead(t_data *data)
 {
+	t_bool	dead;
+
 	pthread_mutex_lock(&data->death);
-	if (data->philo_dead == TRUE)
-	{
-		pthread_mutex_unlock(&data->death);
-		return (TRUE);
-	}
+	dead = data->philo_dead;
 	pthread_mutex_unlock(&data->death);
-	return (FALSE);
+	return (dead);
 }
 
 /*

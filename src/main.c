@@ -15,8 +15,8 @@
 static int	is_number(const char *str)
 {
 	int	i;
-	int count_zero;
-	int real_len;
+	int	count_zero;
+	int	real_len;
 
 	real_len = 0;
 	count_zero = 0;
@@ -72,28 +72,20 @@ int	main(int argc, char **argv)
 
 	if (init_data(&data, argc, argv))
 		return (1);
-	//TEST THEO
-	// data.is_dinner_started = 0;
 	if (!fk_creates(&data))
 		return (fk_destroys(&data));
-	pthread_mutex_lock(&(data.print));
-	ph_set_dead(&data, FALSE);
+	pthread_mutex_lock(&(data.death));
+	data.philo_dead = FALSE;
 	if (ph_creates(&data))
 	{
-		ph_set_dead(&data, TRUE);
-		pthread_mutex_unlock(&(data.print));
+		data.philo_dead = TRUE;
+		pthread_mutex_unlock(&(data.death));
 		ph_join(&data);
 		fk_destroys(&data);
 		return (ph_destroys(&data), 1);
 	}
-	// printf(" %d %d %d \n", data.time_to_die / 1000, data.time_to_eat / 1000, data.time_to_sleep / 1000);
-	// ph_set_dead(&data, FALSE);
-	//THEO TEST
-	// pthread_mutex_lock(&(data.print));
-	// data.is_dinner_started = 1;
 	data.start_time = ft_get_time();
-	// pthread_mutex_unlock(&(data.print));
-	pthread_mutex_unlock(&(data.print));
+	pthread_mutex_unlock(&(data.death));
 	ph_join(&data);
 	if (data.must_eat_count > 0)
 		pthread_join(data.manager, NULL);
