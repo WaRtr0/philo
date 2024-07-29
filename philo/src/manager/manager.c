@@ -34,14 +34,12 @@ static int	get_count(t_philo **philo, int nbs)
 
 void	manager(t_data *data)
 {
-	pthread_mutex_lock(&(data->print));
-	pthread_mutex_unlock(&(data->print));
-	while (1)
+	pthread_mutex_lock(&(data->death));
+	pthread_mutex_unlock(&(data->death));
+	while (!ph_get_dead(data))
 	{
-		if (ph_get_dead(data))
-			break ;
 		if (get_count(data->philo, data->philo_count))
 			ph_set_dead(data, TRUE);
-		usleep(data->time_to_eat);
+		usleep(data->time_to_eat * 500);
 	}
 }

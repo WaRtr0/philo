@@ -12,15 +12,6 @@
 
 #include "philo.h"
 
-/*
-**	@brief get id by even or odd
-**
-**	@param data the data structure
-**	@param id the id of the philosopher
-**	@param ids the array of ids
-**	@return void
-*/
-
 static void	must_eat_action(t_philo *philo)
 {
 	if (philo->data->must_eat_count > 0)
@@ -31,45 +22,29 @@ static void	must_eat_action(t_philo *philo)
 	}
 }
 
-static void	get_priority_id(t_data *data, int id, int *ids)
-{
-	if (id % 2)
-	{
-		ids[0] = id;
-		ids[1] = (id + 1) % data->philo_count;
-	}
-	else
-	{
-		ids[0] = (id + 1) % data->philo_count;
-		ids[1] = id;
-	}
-}
-
 void	ph_routine(t_philo *philo)
 {
-	t_data	*data;
+	t_data				*data;
+	const __uint64_t	time_to_sleep = philo->data->time_to_sleep;
+	const __uint64_t	time_to_eat = philo->data->time_to_eat;
 
 	data = philo->data;
-	if ((ph_get_dead(data)))
-		return ;
-	get_priority_id(data, philo->id, philo->priority);
-	pthread_mutex_lock(&(data->print));
-	usleep(100);
-	pthread_mutex_unlock(&(data->print));
+	pthread_mutex_lock(&(data->death));
+	pthread_mutex_unlock(&(data->death));
 	philo->last_eat = data->start_time;
-	if (philo->id != philo->priority[0])
-		usleep(data->time_to_eat * 1000);
-	while (!(ph_get_dead(data) || ph_is_dead(philo)))
+	if (philo->id % 2)
+		ph_usleep(time_to_eat / 2, philo);
+	while (!(ph_is_dead(philo) || ph_get_dead(data)))
 	{
-		ph_get_forks(data, philo->id);
+		ph_get_forks(philo);
 		ph_print_status(philo, eating);
-		philo->last_eat = ft_get_time();
 		ph_usleep(data->time_to_eat, philo);
 		must_eat_action(philo);
-		fk_put(philo->priority[0], data->forks);
-		fk_put(philo->priority[1], data->forks);
+		fk_puts(philo);
 		ph_print_status(philo, sleeping);
-		ph_usleep(data->time_to_sleep, philo);
+		ph_usleep(time_to_sleep, philo);
 		ph_print_status(philo, thinking);
+		usleep(100);
 	}
+	fk_puts(philo);
 }

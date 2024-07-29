@@ -15,13 +15,13 @@ NAME = philo
 
 ARGS = $(filter-out $@, $(MAKECMDGOALS))
 
-CC = gcc
+CC = cc
 RM = rm -rf
 
 # SANITIZE		=	-fsanitize=thread -g3
-# DEBUG			=	-g3 -O0
+# DEBUG			=	-O0 -g3 
 
-CFLAGS = ${SANITIZE} ${DEBUG} -Wall -Wextra -Werror -MMD
+CFLAGS =  ${SANITIZE} ${DEBUG} -Wall -Wextra -Werror -MMD
 
 SDIR = src
 BDIR = .build

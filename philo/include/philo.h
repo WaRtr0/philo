@@ -83,10 +83,10 @@ typedef struct fork
 typedef struct s_data
 {
 	int				philo_count;
-	suseconds_t		start_time;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	__uint64_t		start_time;
+	__uint64_t		time_to_die;
+	__uint64_t		time_to_eat;
+	__uint64_t		time_to_sleep;
 	int				must_eat_count;
 	t_bool			philo_dead;
 	t_fork			**forks;
@@ -111,28 +111,31 @@ typedef struct s_philo
 	t_data			*data;
 	pthread_t		thread;
 	int				priority[2];
+	t_fork			*left;
+	t_fork			*right;
 	int				eat_count;
 	pthread_mutex_t	eat;
-	suseconds_t		last_eat;
+	__uint64_t		last_eat;
 }	t_philo;
 
 int			ft_atoi(const char *str);
 int			ft_strlen(const char *s);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putstr_len_fd(char *s, int len, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		*ft_calloc(size_t count, size_t size);
-suseconds_t	ft_get_time(void);
+__uint64_t	ft_get_time(void);
 
 t_bool		fk_creates(t_data *data);
 t_bool		fk_destroys(t_data *data);
-t_bool		fk_take(int id, t_fork **forks);
-t_bool		fk_put(int id, t_fork **forks);
+t_bool		fk_take(t_philo *philo, t_fork *fork);
+t_bool		fk_puts(t_philo *philo);
 
 int			ph_creates(t_data *data);
 void		ph_join(t_data *data);
 void		ph_destroys(t_data *data);
-void		ph_usleep(int time, t_philo *philo);
-t_bool		ph_get_forks(t_data *data, int id);
+void		ph_usleep(__uint64_t time, t_philo *philo);
+t_bool		ph_get_forks(t_philo *philo);
 
 t_bool		ph_get_dead(t_data *data);
 void		ph_set_dead(t_data *data, t_bool value);

@@ -12,55 +12,30 @@
 
 #include "philo.h"
 
-// void	ph_usleep(int time, t_philo *philo)
-// {
-// 	suseconds_t	end;
-// 	suseconds_t	actual;
-
-// 	end = ft_get_time() + time;
-// 	while (1)
-// 	{
-// 		// if (ph_is_dead(philo) == TRUE
-// 		// 	|| ph_get_dead(philo->data) == TRUE)
-// 		// 	break ;
-// 		if (ph_is_dead(philo) == TRUE)
-// 			break ;
-// 		actual = ft_get_time();
-// 		if (actual >= end)
-// 			break ;
-// 		else if (end - actual < 2)
-// 		{
-// 			usleep(1000);
-// 			break ;
-// 		}
-// 		usleep(50);
-// 	}
-// }
-
-suseconds_t get_end(t_philo *philo, int time)
+static inline __uint64_t	get_end(t_philo *philo, __uint64_t time)
 {
-	suseconds_t	end_default;
-	suseconds_t	actual;
-	suseconds_t	end_dead;
-	suseconds_t	end_no_time;
+	__uint64_t	end_default;
+	__uint64_t	actual;
+	__uint64_t	end_dead;
+	__uint64_t	end_no_time;
 
 	actual = ft_get_time();
 	end_default = actual + time;
 	end_dead = actual + philo->data->time_to_die;
 	end_no_time = philo->last_eat + philo->data->time_to_die;
-	if (end_dead < end_default && end_dead < end_no_time)
-		return (end_dead - actual);
-	if (end_no_time < end_default && end_no_time < end_dead)
-		return (end_no_time - actual);
-	return (end_default - actual);
+	if (end_dead < end_default && end_dead <= end_no_time)
+		return (end_dead + 1);
+	if (end_no_time < end_default && end_no_time <= end_dead)
+		return (end_no_time + 1);
+	return (end_default);
 }
 
-void	ph_usleep(int time, t_philo *philo)
+inline void	ph_usleep(__uint64_t time, t_philo *philo)
 {
-	suseconds_t	end;
+	__uint64_t	end;
 
 	end = get_end(philo, time);
-	usleep(end * 1000);
-	ph_get_dead(philo->data);
+	while (ft_get_time() < end)
+		usleep(100);
 	ph_is_dead(philo);
 }
