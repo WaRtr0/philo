@@ -36,6 +36,6 @@ inline void	ph_usleep(__uint64_t time, t_philo *philo)
 
 	end = get_end(philo, time);
 	while (ft_get_time() < end)
-		usleep(100);
+		usleep(250);
 	ph_is_dead(philo);
 }
